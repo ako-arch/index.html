@@ -1,14 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
 <meta charset="UTF-8">
 <title>Before After</title>
+
+<style>
+
+body{
+margin:0;
+background:#111;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+font-family:sans-serif;
+}
+
+.container{
+width:900px;
+position:relative;
+overflow:hidden;
+border-radius:20px;
+}
+
+.container img{
+width:100%;
+display:block;
+}
+
+.before{
+position:absolute;
+top:0;
+left:0;
+width:50%;
+overflow:hidden;
+}
+
+.slider{
+position:absolute;
+top:0;
+left:50%;
+width:3px;
+height:100%;
+background:white;
+}
+
+input{
+position:absolute;
+width:100%;
+height:100%;
+opacity:0;
+cursor:ew-resize;
+}
+
+</style>
 </head>
 
-<body style="background:#111;color:white;text-align:center;font-family:sans-serif">
+<body>
 
-<h1>Before / After Demo</h1>
-<p>GitHub Pages ทำงานแล้ว</p>
+<div class="container">
+
+<img src="AFTER.jpg">
+
+<div class="before" id="before">
+<img src="BEFORE.jpg">
+</div>
+
+<div class="slider" id="slider"></div>
+
+<input type="range" min="0" max="100" value="50" id="range">
+
+</div>
+
+<script>
+
+let range = document.getElementById("range")
+let before = document.getElementById("before")
+let slider = document.getElementById("slider")
+
+range.oninput = function(){
+
+before.style.width = this.value + "%"
+slider.style.left = this.value + "%"
+
+}
+
+</script>
 
 </body>
 </html>
