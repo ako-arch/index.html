@@ -1,1 +1,157 @@
 
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Before After Test</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      background:#111;
+      font-family:Arial,sans-serif;
+      color:#fff;
+      padding:30px;
+    }
+
+    .wrap{
+      max-width:900px;
+      margin:0 auto;
+    }
+
+    h1{
+      text-align:center;
+      margin-bottom:20px;
+      font-size:32px;
+    }
+
+    .compare{
+      position:relative;
+      width:100%;
+      aspect-ratio:16/9;
+      overflow:hidden;
+      border-radius:20px;
+      background:#222;
+    }
+
+    .after-layer,
+    .before-layer{
+      position:absolute;
+      inset:0;
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+    }
+
+    .after-layer{
+      background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop');
+      z-index:1;
+    }
+
+    .before-wrap{
+      position:absolute;
+      top:0;
+      left:0;
+      width:50%;
+      height:100%;
+      overflow:hidden;
+      z-index:2;
+    }
+
+    .before-layer{
+      background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop&sat=-100&contrast=80');
+    }
+
+    .divider{
+      position:absolute;
+      top:0;
+      left:50%;
+      transform:translateX(-50%);
+      width:2px;
+      height:100%;
+      background:#fff;
+      z-index:4;
+    }
+
+    .handle{
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      width:56px;
+      height:56px;
+      border-radius:50%;
+      background:#fff;
+      color:#111;
+      font-size:24px;
+      font-weight:bold;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 8px 20px rgba(0,0,0,.3);
+    }
+
+    .label{
+      position:absolute;
+      top:16px;
+      padding:8px 14px;
+      border-radius:999px;
+      background:rgba(0,0,0,.5);
+      font-weight:700;
+      z-index:5;
+    }
+
+    .left{left:16px}
+    .right{right:16px}
+
+    input[type="range"]{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      opacity:0;
+      z-index:10;
+      cursor:ew-resize;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Before / After Test</h1>
+
+    <div class="compare">
+      <div class="after-layer"></div>
+
+      <div class="before-wrap" id="beforeWrap">
+        <div class="before-layer"></div>
+      </div>
+
+      <div class="label left">ก่อน</div>
+      <div class="label right">หลัง</div>
+
+      <div class="divider" id="divider">
+        <div class="handle">↔</div>
+      </div>
+
+      <input type="range" min="0" max="100" value="50" id="slider">
+    </div>
+  </div>
+
+  <script>
+    const slider = document.getElementById('slider');
+    const beforeWrap = document.getElementById('beforeWrap');
+    const divider = document.getElementById('divider');
+
+    function updateSlider(value){
+      beforeWrap.style.width = value + '%';
+      divider.style.left = value + '%';
+    }
+
+    updateSlider(slider.value);
+
+    slider.addEventListener('input', function(){
+      updateSlider(this.value);
+    });
+  </script>
+</body>
+</html>
