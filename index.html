@@ -1,12 +1,16 @@
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Before After Test</title>
+  <title>Before / After Test</title>
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
     body{
       background:#111;
       font-family:Arial,sans-serif;
@@ -15,32 +19,35 @@
     }
 
     .wrap{
-      max-width:900px;
+      max-width:1000px;
       margin:0 auto;
     }
 
     h1{
       text-align:center;
-      margin-bottom:20px;
+      margin-bottom:22px;
       font-size:32px;
+      font-weight:800;
     }
 
     .compare{
+      --pos: 50%;
       position:relative;
       width:100%;
       aspect-ratio:16/9;
       overflow:hidden;
-      border-radius:20px;
+      border-radius:22px;
       background:#222;
     }
 
-    .after-layer,
-    .before-layer{
+    .layer{
       position:absolute;
       inset:0;
       background-size:cover;
       background-position:center;
       background-repeat:no-repeat;
+      pointer-events:none;
+      user-select:none;
     }
 
     .after-layer{
@@ -48,24 +55,16 @@
       z-index:1;
     }
 
-    .before-wrap{
-      position:absolute;
-      top:0;
-      left:0;
-      width:50%;
-      height:100%;
-      overflow:hidden;
-      z-index:2;
-    }
-
     .before-layer{
       background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop&sat=-100&contrast=80');
+      clip-path:inset(0 calc(100% - var(--pos)) 0 0);
+      z-index:2;
     }
 
     .divider{
       position:absolute;
       top:0;
-      left:50%;
+      left:var(--pos);
       transform:translateX(-50%);
       width:2px;
       height:100%;
@@ -84,7 +83,7 @@
       background:#fff;
       color:#111;
       font-size:24px;
-      font-weight:bold;
+      font-weight:800;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -101,10 +100,10 @@
       z-index:5;
     }
 
-    .left{left:16px}
-    .right{right:16px}
+    .label.left{ left:16px; }
+    .label.right{ right:16px; }
 
-    input[type="range"]{
+    .slider{
       position:absolute;
       inset:0;
       width:100%;
@@ -112,6 +111,8 @@
       opacity:0;
       z-index:10;
       cursor:ew-resize;
+      -webkit-appearance:none;
+      appearance:none;
     }
   </style>
 </head>
@@ -119,32 +120,27 @@
   <div class="wrap">
     <h1>Before / After Test</h1>
 
-    <div class="compare">
-      <div class="after-layer"></div>
-
-      <div class="before-wrap" id="beforeWrap">
-        <div class="before-layer"></div>
-      </div>
+    <div class="compare" id="compareBox">
+      <div class="layer after-layer"></div>
+      <div class="layer before-layer"></div>
 
       <div class="label left">ก่อน</div>
       <div class="label right">หลัง</div>
 
-      <div class="divider" id="divider">
+      <div class="divider">
         <div class="handle">↔</div>
       </div>
 
-      <input type="range" min="0" max="100" value="50" id="slider">
+      <input class="slider" type="range" min="0" max="100" value="50" id="slider">
     </div>
   </div>
 
   <script>
+    const compareBox = document.getElementById('compareBox');
     const slider = document.getElementById('slider');
-    const beforeWrap = document.getElementById('beforeWrap');
-    const divider = document.getElementById('divider');
 
     function updateSlider(value){
-      beforeWrap.style.width = value + '%';
-      divider.style.left = value + '%';
+      compareBox.style.setProperty('--pos', value + '%');
     }
 
     updateSlider(slider.value);
